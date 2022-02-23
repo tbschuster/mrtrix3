@@ -284,7 +284,6 @@ void run ()
 
     if (argument.size() % 2)
       throw Exception ("MSMT_CSD algorithm expects pairs of (input response function & output FOD image) to be provided");
-
     DWI::SDeconv::MSMT_CSD::Shared shared (header_in);
     shared.parse_cmdline_options();
 
@@ -301,7 +300,6 @@ void run ()
     } catch (Exception& e) {
       throw Exception (e, "MSMT_CSD algorithm expects the first file in each argument pair to be an input response function file");
     }
-
     shared.init();
 
     DWI::stash_DW_scheme (header_out, shared.grad);
@@ -320,7 +318,6 @@ void run ()
     MSMT_Processor processor (shared, mask, odfs, dwi_modelled);
     auto dwi = header_in.get_image<float>().with_direct_io (3);
     ThreadedLoop ("performing MSMT CSD ("
-                  + str(shared.num_shells()) + " shell" + (shared.num_shells() > 1 ? "s" : "") + ", "
                   + str(num_tissues) + " tissue" + (num_tissues > 1 ? "s" : "") + ")",
                   dwi, 0, 3)
         .run (processor, dwi);
